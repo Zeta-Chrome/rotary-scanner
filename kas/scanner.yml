@@ -1,0 +1,43 @@
+header:
+  version: 14
+
+machine: raspberrypi3-64
+distro: poky
+target: scanner-image 
+
+repos:
+  this:
+    layers:
+      meta-scanner:
+
+  poky:
+    url: https://git.yoctoproject.org/poky
+    branch: scarthgap
+    layers:
+      meta:
+      meta-poky:
+
+  meta-openembedded:
+    url: https://git.openembedded.org/meta-openembedded
+    branch: scarthgap
+    layers:
+      meta-oe:
+      meta-python:
+      meta-networking:
+      meta-multimedia:
+
+  meta-raspberrypi:
+    url: https://git.yoctoproject.org/meta-raspberrypi
+    branch: scarthgap
+
+local_conf_header:
+  cache: |
+    DL_DIR = "/home/zeta/yocto-cache/downloads"
+    SSTATE_DIR = "/home/zeta/yocto-cache/sstate"
+  rpi: |
+    ENABLE_SPI_BUS = "1"
+    DISABLE_VC4GRAPHICS = "1"
+    RPI_EXTRA_CONFIG = "core_freq=250\n"
+    IMAGE_FSTYPES = "wic.bz2"
+  packages: |
+    IMAGE_INSTALL:append = " libgpiod libgpiod-tools v4l-utils kernel-modules"
