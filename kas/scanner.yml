@@ -39,5 +39,5 @@ local_conf_header:
     DISABLE_VC4GRAPHICS = "1"
     RPI_EXTRA_CONFIG = "core_freq=250\n"
     IMAGE_FSTYPES = "wic.bz2"
-  packages: |
-    IMAGE_INSTALL:append = " libgpiod libgpiod-tools v4l-utils kernel-modules"
+  license: |
+    LICENSE_FLAGS_ACCEPTED += "synaptics-killswitch"
