@@ -2,3 +2,5 @@ build/
 poky/
 meta-openembedded/
 meta-raspberrypi/
+esp32cam-firmware/build/
+esp32cam-firmware/sdkconfig/

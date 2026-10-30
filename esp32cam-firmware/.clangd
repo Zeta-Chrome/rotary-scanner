@@ -1,0 +1,18 @@
+CompileFlags:
+  Compiler: /home/*/.espressif/tools/xtensa-esp-elf/*/xtensa-esp-elf/bin/xtensa-esp-elf-gcc
+
+  Add: [
+    "-target", "xtensa-esp32-elf",
+    "-D__XTENSA__",
+    "-D__extension__="
+  ]
+
+  Remove: [
+    "-mlongcalls",
+    "-fno-tree-switch-conversion",
+    "-fstrict-volatile-bitfields",
+    "-m*",
+    "/usr/include/*",
+    "/usr/local/include/*"
+  ]
+
