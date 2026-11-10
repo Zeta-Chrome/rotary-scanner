@@ -1,6 +1,8 @@
+.cache/
 build/
 poky/
 meta-openembedded/
 meta-raspberrypi/
+yocto-cache/
 esp32cam-firmware/build/
 esp32cam-firmware/sdkconfig/
