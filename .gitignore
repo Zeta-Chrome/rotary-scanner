@@ -1,3 +1,4 @@
+compile_commands.json
 .cache/
 build/
 poky/
@@ -6,3 +7,4 @@ meta-raspberrypi/
 yocto-cache/
 esp32cam-firmware/build/
 esp32cam-firmware/sdkconfig/
+esp32cam-firmware/managed_components/ 
