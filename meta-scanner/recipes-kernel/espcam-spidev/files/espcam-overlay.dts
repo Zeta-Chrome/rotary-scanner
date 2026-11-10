@@ -14,7 +14,7 @@
 			esp32cam@0 {
 				compatible = "abel,esp32cam";
 				reg = <0>;
-				spi-max-frequency = <10000000>;
+				spi-max-frequency = <8000000>;
 				interrupt-parent = <&gpio>;
 				interrupts = <17 IRQ_TYPE_EDGE_RISING>;
 			};
