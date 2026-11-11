@@ -1,8 +1,8 @@
 #include "esp_log.h"
 #include "cam_pins.h"
-#include "esp_camera.h"
 #include "driver/spi_slave.h"
 #include "driver/gpio.h"
+#include "freertos/idf_additions.h"
 #include "portmacro.h"
 
 #define RCV_HOST SPI2_HOST
@@ -24,65 +24,26 @@
 
 #define FB_QUEUE_SIZE 1
 
-bool esp32cam_init(pixformat_t format, size_t fb_count,
-				   camera_grab_mode_t grab_mode)
+bool esp32cam_init()
 {
-	camera_config_t config;
-	config.ledc_channel = LEDC_CHANNEL_0;
-	config.ledc_timer = LEDC_TIMER_0;
-	config.pin_d0 = CAM_PIN_D0;
-	config.pin_d1 = CAM_PIN_D1;
-	config.pin_d2 = CAM_PIN_D2;
-	config.pin_d3 = CAM_PIN_D3;
-	config.pin_d4 = CAM_PIN_D4;
-	config.pin_d5 = CAM_PIN_D5;
-	config.pin_d6 = CAM_PIN_D6;
-	config.pin_d7 = CAM_PIN_D7;
-	config.pin_vsync = CAM_PIN_VSYNC;
-	config.pin_href = CAM_PIN_HREF;
-	config.pin_pclk = CAM_PIN_PCLK;
-	config.pin_xclk = CAM_PIN_XCLK;
-	config.pin_sccb_sda = CAM_PIN_SIOD;
-	config.pin_sccb_scl = CAM_PIN_SIOC;
-	config.pin_pwdn = CAM_PIN_PWDN;
-	config.pin_reset = CAM_PIN_RESET;
-	config.xclk_freq_hz = 12000000;
-	config.grab_mode = grab_mode;
-	config.pixel_format = format;
-	config.frame_size = FRAMESIZE_QVGA;
-	config.jpeg_quality = 0;
-	config.fb_count = fb_count;
-	config.fb_location = CAMERA_FB_IN_PSRAM;
-	config.grab_mode = grab_mode;
-
-	if (esp_camera_init(&config) != ESP_OK)
-		return false;
-
-	ESP_LOGI("CAMERA", "Camera initialized successfully with %zu buffers",
-			 fb_count);
-
 	return true;
 }
 
 bool esp32cam_capture_frame(char *frame)
 {
-	camera_fb_t *fb = esp_camera_fb_get();
-	if (!fb)
-		return false;
-
-	memcpy(frame, fb->buf, fb->len);
-	esp_camera_fb_return(fb);
+	vTaskDelay(pdMS_TO_TICKS(50));
+	memset(frame, 0xF3, FRAME_SZ);
 	return true;
 }
 
 void esp32cam_on_flash()
 {
-	gpio_set_level(GPIO_FLASH, 1);
+	// gpio_set_level(GPIO_FLASH, 1);
 }
 
 void esp32cam_off_flash()
 {
-	gpio_set_level(GPIO_FLASH, 0);
+	// gpio_set_level(GPIO_FLASH, 0);
 }
 
 void app_main()
@@ -137,7 +98,7 @@ void app_main()
 	spi_slave_transaction_t t = { 0 };
 
 	// Init camera
-	esp32cam_init(PIXFORMAT_YUV422, FB_QUEUE_SIZE, CAMERA_GRAB_LATEST);
+	esp32cam_init();
 
 	while (1) {
 		gpio_set_level(GPIO_HANDSHAKE, 0);

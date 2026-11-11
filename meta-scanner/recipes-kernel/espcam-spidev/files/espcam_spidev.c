@@ -581,20 +581,13 @@ err_ctrl:
 	return ret;
 }
 
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 5, 0)
 static void espcam_remove(struct spi_device *spi)
-#else
-static int espcam_remove(struct spi_device *spi)
-#endif
 {
 	struct espcam *cam = spi_get_drvdata(spi);
 
 	video_unregister_device(&cam->vdev);
 	v4l2_ctrl_handler_free(&cam->hdl);
 	v4l2_device_unregister(&cam->v4l2_dev);
-#if LINUX_VERSION_CODE < KERNEL_VERSION(6, 5, 0)
-	return 0;
-#endif
 }
 
 static const struct of_device_id espcam_of_match[] = {
