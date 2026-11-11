@@ -537,11 +537,7 @@ static int espcam_probe(struct spi_device *spi)
 	vq->ops = &espcam_vb2_ops;
 	vq->mem_ops = &vb2_vmalloc_memops;
 	vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 13, 0)
-	vq->min_queued_buffers = 1;
-#else
 	vq->min_buffers_needed = 1;
-#endif
 	vq->lock = &cam->lock;
 	vq->dev = dev;
 	ret = vb2_queue_init(vq);
